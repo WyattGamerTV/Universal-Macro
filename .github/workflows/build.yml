@@ -17,9 +17,11 @@ jobs:
         config:
           - name: Windows
             os: windows-latest
+            target: Win
 
           - name: macOS
             os: macos-latest
+            target: Mac
 
           - name: Android
             os: ubuntu-latest
@@ -40,22 +42,3 @@ jobs:
           bindings: geode-sdk/bindings
           build-config: Release
           target: ${{ matrix.config.target }}
-          # Ensures your dependency on eclipse.ffmpeg-api compiles cleanly if needed
-          combine: true
-
-  package:
-    name: Package Mod Artifacts
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Merge Build Outputs
-        uses: geode-sdk/build-geode-mod/combine@main
-        with:
-          id: wyattgamertv.macro_engine
-
-      - name: Upload .geode Package
-        uses: actions/upload-artifact@v4
-        with:
-          name: wyattgamertv.macro_engine
-          path: build/*.geode
