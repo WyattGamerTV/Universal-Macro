@@ -1,17 +1,33 @@
 {
-	"geode": "$GEODE_VERSION",
+	"geode": "5.8.2",
 	"gd": {
 		"win": "2.2081",
 		"android": "2.2081",
 		"mac": "2.2081",
 		"ios": "2.2081"
 	},
-	"id": "$MOD_ID",
-	"name": "$MOD_NAME",
-	"version": "$MOD_VERSION",
-	"developer": "$MOD_DEVELOPER",
-	"description": "$MOD_DESCRIPTION",
-	"dependencies": {
-		"geode.node-ids": ">=v1.23.3"
+	"id": "wyattgamertv.macro_engine",
+	"name": "Universal Macro Bot",
+	"version": "1.0.0",
+	"developer": "WyattGamerTV",
+	"description": "An advanced multi-format macro recorder, playback engine, and renderer.",
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.23.3",
+			"importance": "required"
+		},
+		{
+			"id": "eclipse.ffmpeg-api",
+			"version": ">=1.0.0",
+			"importance": "required"
+		}
+	],
+	"settings": {
+		"default-format": {
+			"type": "string",
+			"default": "gdr2",
+			"name": "Default Export Format"
+		}
 	}
 }
