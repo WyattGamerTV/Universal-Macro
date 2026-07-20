@@ -1,0 +1,61 @@
+name: Build Geode Mod
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Windows
+            os: windows-latest
+
+          - name: macOS
+            os: macos-latest
+
+          - name: Android
+            os: ubuntu-latest
+            target: Android
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build Geode Mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          bindings: geode-sdk/bindings
+          build-config: Release
+          target: ${{ matrix.config.target }}
+          # Ensures your dependency on eclipse.ffmpeg-api compiles cleanly if needed
+          combine: true
+
+  package:
+    name: Package Mod Artifacts
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Merge Build Outputs
+        uses: geode-sdk/build-geode-mod/combine@main
+        with:
+          id: wyattgamertv.macro_engine
+
+      - name: Upload .geode Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: wyattgamertv.macro_engine
+          path: build/*.geode
